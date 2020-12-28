@@ -10,6 +10,8 @@
 
 //Empty spaces in the board are represented with -1.
 int board[3][3] = {{-1,-1,-1}, {-1,-1,-1}, {-1,-1,-1}};
+int tempBoard[3][3] = {{-1,-1,-1}, {-1,-1,-1}, {-1,-1,-1}};
+int placed = 0;
 
 void printBoard(int board[][3]) {
   int i = 0;
@@ -80,6 +82,20 @@ int checkWin(int board[][3]) {
   return -1;
 }
 
+int move() {
+  /*
+  if (placed == 0) {
+    board[0][0] = 0;
+    return 100;
+    }
+  if (placed == 1) {
+  }
+  placed +=1;
+  */
+
+  return 0;
+}
+
 int main() {
   int first = -1;
   char answer[10];
@@ -100,7 +116,7 @@ int main() {
   char row[10];
   char column[10];
   char temp[255];
-  
+  /*
   while (first == -1) {
     printf("Would you like to go first? Please type 'yes' or 'no'.\n");
     fgets(temp, 256, stdin);
@@ -116,81 +132,92 @@ int main() {
       printf("Invalid input! ");
     }
     fflush(stdin);
-  }
+    }*/
+  first = 1; //Simplifying things for now by always letting the player go first
   turn += first;
   printf("I am the great and powerful Tic-Tac-Toe bot! No one can beat me! At best, you can tie.\n");
   while (playing) {
     //printBoard(board);
     //playing = 0;
-    if (checkWin(board) == 0) {
-      turn = 2;
-      playing = 0;
-      printf("You lose!\n");
-      exit(0);
-    }
-    if (turn == 1) {
-      printBoard(board);
-      valid = 0;
-      while (!valid) {
-	pRow = -1;
-	pColumn = -1;
-	printf("It is your move. Please type in the cell where you'd like to place your X. You can write something like 'middle row right column' or 'left column bottom row'.\n");
-	fflush(stdin);
-	fgets(temp, 256, stdin);
-	if (sscanf(temp, "%s row %s column", row, column) != 2) {
+    if (movesRemaining(board)) {
+      if (turn == 1) {
+	printBoard(board);
+	valid = 0;
+	while (!valid) {
+	  pRow = -1;
+	  pColumn = -1;
+	  printf("It is your move. Please type in the cell where you'd like to place your X. You can write something like 'middle row right column' or 'left column bottom row'.\n");
+	  fflush(stdin);
+	  fgets(temp, 256, stdin);
+	  if (sscanf(temp, "%s row %s column", row, column) != 2) {
 	    sscanf(temp, "%s column %s row", column, row);
 	  }
-	fflush(stdin);
-	valid = 1;
-	if (strcmp(row, top) == 0) {
-	  pRow = 0;
-	}
-	else if (strcmp(row, middle) == 0) {
-	  pRow = 1;
-	}
-	else if (strcmp(row, bottom) == 0) {
-	  pRow = 2;
-	}
-	if (pRow != -1) {
-	  if (strcmp(column, left) == 0) {
-	    pColumn = 0;
+	  fflush(stdin);
+	  valid = 1;
+	  if (strcmp(row, top) == 0) {
+	    pRow = 0;
 	  }
-	  else if (strcmp(column, middle) == 0) {
-	    pColumn = 1;
+	  else if (strcmp(row, middle) == 0) {
+	    pRow = 1;
 	  }
-	  else if (strcmp(column, right) == 0) {
-	    pColumn = 2;
+	  else if (strcmp(row, bottom) == 0) {
+	    pRow = 2;
 	  }
-	}
-	if (pRow == -1 || pColumn == -1) {
-	  valid = 0;
-	}
-	else {
-	  if (board[pRow][pColumn] != -1) {
+	  if (pRow != -1) {
+	    if (strcmp(column, left) == 0) {
+	      pColumn = 0;
+	    }
+	    else if (strcmp(column, middle) == 0) {
+	      pColumn = 1;
+	    }
+	    else if (strcmp(column, right) == 0) {
+	      pColumn = 2;
+	    }
+	  }
+	  if (pRow == -1 || pColumn == -1) {
 	    valid = 0;
-	    printf("That cell is already occupied! ");
 	  }
 	  else {
-	    board[pRow][pColumn] = 1;
-	    printf("Hmmm. Not the move I would have gone with, but that's fine. ");
-	    printBoard(board);
-	    turn = 0; //Switch to the bot's turn now
+	    if (board[pRow][pColumn] != -1) {
+	      valid = 0;
+	      printf("That cell is already occupied! ");
+	    }
+	    else {
+	      board[pRow][pColumn] = 1;
+	      printf("Hmmm. Not the move I would have gone with, but that's fine. ");
+	      printBoard(board);
+	      placed +=1;
+	      turn = 0; //Switch to the bot's turn now
+	    }
+	  }
+	  if (!valid) {
+	    printf("Invalid move! ");
 	  }
 	}
-	if (!valid) {
-	  printf("Invalid move! ");
-	}
+      }
+      if (checkWin(board) == 1) {
+	turn = 2;
+	playing = 0;
+	printf("You win!\n");
+	exit(0);
+      }
+      if (turn == 0) {
+	printf("Bot's turn \n");
+	move();
+	turn = 1;
+      }
+      if (checkWin(board) == 0) {
+	turn = 2;
+	playing = 0;
+	printf("You lose!\n");
+	exit(0);
       }
     }
-    if (checkWin(board) == 1) {
+    else {
+      printf("The board is full! It's a draw!\n");
       turn = 2;
       playing = 0;
-      printf("You win!\n");
       exit(0);
-    }
-    if (turn == 0) {
-      printf("Bot's turn \n");
-      turn = 1;
     }
   }
   //printBoard(board);
