@@ -8,6 +8,7 @@
 //C was probably not the best language for this; Python would've worked much better.
 //I wanted to do something in C, though. No real reason.
 
+//Empty spaces in the board are represented with -1.
 int board[3][3] = {{-1,-1,-1}, {-1,-1,-1}, {-1,-1,-1}};
 
 void printBoard(int board[][3]) {
@@ -39,15 +40,14 @@ void printBoard(int board[][3]) {
 int movesRemaining(int board[][3]) {
   int i = 0;
   int j;
-  int remain = 0;
   for (i; i < 3; i++) {
     for (j = 0; j < 3; j++) {
       if (board[i][j] == -1) {
-	remain += 1;
+	return 1;
       }
     }
   }
-  return remain;
+  return 0;
 }
 
 int checkWin(int board[][3]) {
@@ -69,7 +69,7 @@ int checkWin(int board[][3]) {
 	if (board[i][0] == board[i][1] && board[i][1] == board[i][2]) {
 	  return board[i][0];
 	}
-	if (i == 0) {
+	if (i == 0) { //We only need to check the columns once
 	  if (board[0][j] == board[1][j] && board[1][j] == board[2][j]) {
 	    return board[0][j];
 	  }
@@ -134,10 +134,12 @@ int main() {
       while (!valid) {
 	pRow = -1;
 	pColumn = -1;
-	printf("It is your move. Please type in the cell where you'd like to place your X. You can write something like 'middle row right column' or 'bottom row left column', etc.\n");
+	printf("It is your move. Please type in the cell where you'd like to place your X. You can write something like 'middle row right column' or 'left column bottom row'.\n");
 	fflush(stdin);
 	fgets(temp, 256, stdin);
-	sscanf(temp, "%s row %s column", row, column);
+	if (sscanf(temp, "%s row %s column", row, column) != 2) {
+	    sscanf(temp, "%s column %s row", column, row);
+	  }
 	fflush(stdin);
 	valid = 1;
 	if (strcmp(row, top) == 0) {
