@@ -8,6 +8,7 @@
 //C was probably not the best language for this; Python would've worked much better.
 //I wanted to do something in C, though. No real reason.
 
+int board[3][3] = {{-1,-1,-1}, {-1,-1,-1}, {-1,-1,-1}};
 
 void printBoard(int board[][3]) {
   int i = 0;
@@ -34,6 +35,27 @@ void printBoard(int board[][3]) {
   }
   printf("\n\n");
 }
+ 
+
+int checkWin(int board[][3]) {
+  int i = 0;
+  int j;
+  for (i; i < 3; i++) {
+    for (j = 0; j < 3; j++) {
+      if (board[i][j] != -1) {
+	if (board[i][0] == board[i][1] && board[i][1] == board[i][2]) {
+	  return board[i][0];
+	}
+	if (i == 0) {
+	  if (board[0][j] == board[1][j] && board[1][j] == board[2][j]) {
+	    return board[0][j];
+	  }
+	}
+      }
+    }
+  }
+  return -1;
+}
 
 int main() {
   int first = -1;
@@ -45,7 +67,6 @@ int main() {
   char bottom[] = "bottom";
   char left[] = "left";
   char right[] = "right";
-  int board[3][3] = {{-1,-1,-1}, {-1,-1,-1}, {-1,-1,-1}};
   int playing = 1;
   int valid = 0;
   int validRow = 0;
@@ -76,9 +97,16 @@ int main() {
   turn += first;
   printf("I am the great and powerful Tic-Tac-Toe bot! No one can beat me! At best, you can tie.\n");
   while (playing) {
-    printBoard(board);
-    playing = 0;
+    //printBoard(board);
+    //playing = 0;
+    if (checkWin(board) == 0) {
+      turn = 2;
+      playing = 0;
+      printf("You lose!\n");
+      exit(0);
+    }
     if (turn == 1) {
+      printBoard(board);
       valid = 0;
       while (!valid) {
 	pRow = -1;
@@ -119,14 +147,27 @@ int main() {
 	  }
 	  else {
 	    board[pRow][pColumn] = 1;
+	    printf("Hmmm. Not the move I would have gone with, but that's fine. ");
+	    printBoard(board);
+	    turn = 0; //Switch to the bot's turn now
 	  }
+	}
+	if (!valid) {
+	  printf("Invalid move! ");
 	}
       }
     }
+    if (checkWin(board) == 1) {
+      turn = 2;
+      playing = 0;
+      printf("You win!\n");
+      exit(0);
+    }
     if (turn == 0) {
-      
+      printf("Bot's turn \n");
+      turn = 1;
     }
   }
-  printBoard(board);
+  //printBoard(board);
   return 0;
 }
