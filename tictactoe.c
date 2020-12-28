@@ -33,14 +33,22 @@ void printBoard(int board[][3]) {
   printf("\n\n");
 }
 
-
 int main() {
   int first = -1;
   char answer[10];
   char yes[] = "yes";
   char no[] = "no";
+  char top[] = "top";
+  char middle[] = "middle";
+  char bottom[] = "bottom";
+  char left[] = "left";
+  char right[] = "right";
   int board[3][3] = {{-1,-1,-1}, {-1,-1,-1}, {-1,-1,-1}};
   int playing = 1;
+  int valid = 0;
+  int turn = 0;
+  char row[10];
+  char column[10];
   
   while (first == -1) {
     printf("Would you like to go first? Please type 'yes' or 'no'.\n");
@@ -57,11 +65,22 @@ int main() {
     }
     fflush(stdin);
   }
-
+  turn += first;
+  printf("I am the great and powerful Tic-Tac-Toe bot! No one can beat me! At best, you can tie.\n");
   while (playing) {
     printBoard(board);
     playing = 0;
-    
+    if (turn == 1) {
+      valid = 0;
+      while (!valid) {
+	printf("It is your move. Please type in the cell where you'd like to place your X. You can write something like 'middle row right column' or 'bottom row left column', etc.\n");
+	scanf("%s row %s column", row, column);
+	
+      }
+    }
+    if (turn == 0) {
+      
+    }
   }
   
   return 0;
