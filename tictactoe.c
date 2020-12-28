@@ -6,6 +6,34 @@
 //Author: Lev Bernstein
 //Purpose: Lose to a perfect tic-tac-toe bot.
 
+
+void printBoard(int board[][3]) {
+  int i = 0;
+  int j;
+  printf("The board looks like this:\n\n");
+  for (i; i < 3; i++) {
+    for (j = 0; j < 3; j++) {
+      if (board[i][j] == -1) {
+	printf("   ");
+      }
+      if (board[i][j] == 0) {
+	printf(" O ");
+      }
+      if (board[i][j] == 1) {
+	printf(" X ");
+      }
+      if (j != 2) {
+	printf("|");
+      }
+    }
+    if (i != 2) {
+      printf("\n-----------\n");
+    }
+  }
+  printf("\n\n");
+}
+
+
 int main() {
   int first = -1;
   char answer[10];
@@ -31,7 +59,8 @@ int main() {
   }
 
   while (playing) {
-    
+    printBoard(board);
+    playing = 0;
     
   }
   
