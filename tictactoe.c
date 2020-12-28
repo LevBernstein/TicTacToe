@@ -112,13 +112,21 @@ int main() {
 	if (pRow == -1 || pColumn == -1) {
 	  valid = 0;
 	}
-	
+	else {
+	  if (board[pRow][pColumn] != -1) {
+	    valid = 0;
+	    printf("That cell is already occupied! ");
+	  }
+	  else {
+	    board[pRow][pColumn] = 1;
+	  }
+	}
       }
     }
     if (turn == 0) {
       
     }
   }
-  
+  printBoard(board);
   return 0;
 }
