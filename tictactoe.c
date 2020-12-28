@@ -35,11 +35,34 @@ void printBoard(int board[][3]) {
   }
   printf("\n\n");
 }
- 
 
-int checkWin(int board[][3]) {
+int movesRemaining(int board[][3]) {
   int i = 0;
   int j;
+  int remain = 0;
+  for (i; i < 3; i++) {
+    for (j = 0; j < 3; j++) {
+      if (board[i][j] == -1) {
+	remain += 1;
+      }
+    }
+  }
+  return remain;
+}
+
+int checkWin(int board[][3]) {
+  //Check diagonals:
+  if (board[1][1] != -1) {
+    if (board[0][0] == board[1][1] && board[1][1] == board[2][2]) {
+      return board[0][0];
+    }
+    if (board[2][0] == board[1][1] && board[1][1] == board [0][2]) {
+      return board[2][0];
+    }
+  }
+  int i = 0;
+  int j;
+  //Check horizontals/verticals:
   for (i; i < 3; i++) {
     for (j = 0; j < 3; j++) {
       if (board[i][j] != -1) {
