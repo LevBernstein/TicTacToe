@@ -10,7 +10,6 @@
 
 //Empty spaces in the board are represented with -1.
 int board[3][3] = {{-1,-1,-1}, {-1,-1,-1}, {-1,-1,-1}};
-int tempBoard[3][3] = {{-1,-1,-1}, {-1,-1,-1}, {-1,-1,-1}};
 int placed = 0;
 
 void printBoard(int board[][3]) {
@@ -82,7 +81,7 @@ int checkWin(int board[][3]) {
   return -1;
 }
 
-int move() {
+int move(int board[][3]) {
   /*
   if (placed == 0) {
     board[0][0] = 0;
@@ -92,7 +91,7 @@ int move() {
   }
   placed +=1;
   */
-
+  
   return 0;
 }
 
@@ -203,7 +202,7 @@ int main() {
       }
       if (turn == 0) {
 	printf("Bot's turn \n");
-	move();
+	move(board);
 	turn = 1;
       }
       if (checkWin(board) == 0) {
