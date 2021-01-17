@@ -96,7 +96,7 @@ int move(int board[][3]) {
 }
 
 int main() {
-  int first = -1;
+  int turn = -1;
   char answer[10];
   char yes[] = "yes";
   char no[] = "no";
@@ -111,29 +111,27 @@ int main() {
   int validColumn = 0;
   int pRow = -1;
   int pColumn = -1;
-  int turn = 0;
   char row[10];
   char column[10];
   char temp[255];
   /*
-  while (first == -1) {
+  while (turn == -1) {
     printf("Would you like to go first? Please type 'yes' or 'no'.\n");
     fgets(temp, 256, stdin);
     sscanf(temp, "%s\n", answer);
     answer[0] = tolower(answer[0]); //In case someone types in 'Yes' or 'No', this shifts the first letter down to lowercase. Anyone typing in all caps should simply stop doing so.
     if (strcmp(answer, yes) == 0) {
-      first = 1;
+      turn = 1;
     }
     else if (strcmp(answer, no) == 0) {
-      first = 0;
+      turn = 0;
     }
     else {
       printf("Invalid input! ");
     }
     fflush(stdin);
     }*/
-  first = 1; //Simplifying things for now by always letting the player go first
-  turn += first;
+  turn = 1; //Simplifying things for now by always letting the player go first
   printf("I am the great and powerful Tic-Tac-Toe bot! No one can beat me! At best, you can tie.\n");
   while (playing) {
     //printBoard(board);
